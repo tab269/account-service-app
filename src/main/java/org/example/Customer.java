@@ -6,6 +6,7 @@ public class Customer {
     private String vorname;
     private String nachname;
     private Adresse adresse;
+    private PaymentMethod paymentMethod;
     private Status status;
 
     public Customer() {
@@ -41,6 +42,14 @@ public class Customer {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public Status getStatus() {

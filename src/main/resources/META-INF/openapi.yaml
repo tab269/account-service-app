@@ -92,6 +92,8 @@ components:
           example: Müller
         adresse:
           $ref: "#/components/schemas/Adresse"
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethod"
         status:
           type: string
           enum:
@@ -125,22 +127,26 @@ components:
           properties:
             cardnumber:
               type: string
-              minLength: 8
+              minLength: 14
               maxLength: 20
+              example: 1234234534564567
             validity:
               type: string
               minLength: 5
               maxLength: 5
+              example: 05/28
             cvv:
               type: string
               minLength: 3
               maxLength: 3
-        paypal:
+              example: 123
+        payPal:
           type: object
           properties:
             email:
               type: string
               maxLength: 50
+              example: max.mueller@email.com
   parameters:
     customerId:
       in: path
