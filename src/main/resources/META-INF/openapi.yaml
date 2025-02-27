@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: The AccountService API
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /customers:
+    get:
+      responses:
+        "200":
+          description: Get all customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+        "404":
+          description: Ressource nicht gefunden
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        vorname:
+          type: string
+        adresse:
+          $ref: "#/components/schemas/Adresse"
+    Adresse:
+      type: object
+      properties:
+        adresse:
+          type: object
+          properties:
+            strasse:
+              type: string
+            hausnummer:
+              type: string
+            plz:
+              type: string
+            ort:
+              type: string
+            land:
+              type: string
