@@ -18,7 +18,7 @@ public class CustomersResource {
 
     @GET
     public Response getCustomers() {
-        return Response.ok(customers).build();
+        return Response.ok(customers.values()).build();
     }
 
     @POST
