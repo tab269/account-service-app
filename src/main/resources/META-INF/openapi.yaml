@@ -41,6 +41,8 @@ paths:
         "400":
           description: Invalid structure provided
   /customers/{id}:
+    parameters:
+      - $ref: "#/components/parameters/customerId"
     put:
       description: Update one specific customer
       requestBody:
@@ -80,43 +82,41 @@ components:
         id:
           type: integer
           example: 42
-        name:
+        vorname:
+          type: string
+          maxLength: 100
+          example: Maximilian
+        nachname:
           type: string
           maxLength: 100
           example: Müller
-        vorname:
-          type: string
-          example: Maximilian
         adresse:
           $ref: "#/components/schemas/Adresse"
         status:
           type: string
           enum:
-            - aktiviert
-            - deaktiviert
-            - gesperrt
-          example: aktiviert
+            - AKTIVIERT
+            - DEAKTIVIERT
+            - GESPERRT
+          example: DEAKTIVIERT
     Adresse:
       type: object
       properties:
-        adresse:
-          type: object
-          properties:
-            strasse:
-              type: string
-              example: Lange Allee
-            hausnummer:
-              type: string
-              example: 123
-            plz:
-              type: string
-              example: 12345
-            ort:
-              type: string
-              example: Berlin
-            land:
-              type: string
-              example: Deutschland
+        strasse:
+          type: string
+          example: Lange Allee
+        hausnummer:
+          type: string
+          example: 123
+        plz:
+          type: string
+          example: 12345
+        ort:
+          type: string
+          example: Berlin
+        land:
+          type: string
+          example: Deutschland
     PaymentMethod:
       type: object
       properties:
@@ -141,3 +141,11 @@ components:
             email:
               type: string
               maxLength: 50
+  parameters:
+    customerId:
+      in: path
+      name: id
+      description: The id of the customer
+      required: true
+      schema:
+        type: integer
