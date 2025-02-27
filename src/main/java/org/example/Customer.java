@@ -1,6 +1,8 @@
 package org.example;
 
-public class Customer {
+import org.springframework.hateoas.RepresentationModel;
+
+public class Customer extends RepresentationModel<Customer> {
 
     private Integer id;
     private String vorname;

@@ -1,8 +1,11 @@
 package org.example;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
+import org.springframework.hateoas.Link;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +15,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomersResource {
+
+    @Context
+    UriInfo uriInfo;
 
     private final Map<Integer, Customer> customers = new HashMap<>();
     private final AtomicInteger idCounter = new AtomicInteger(1);
@@ -44,7 +50,10 @@ public class CustomersResource {
     @Path("/{id}")
     public Response getOneCustomer(@PathParam("id") Integer id) {
         if (customers.containsKey(id)) {
-            return Response.ok(customers.get(id)).build();
+            Customer result = customers.get(id);
+            Link selfLink = Link.of(uriInfo.getAbsolutePath().toString()).withSelfRel();
+            result.add(selfLink);
+            return Response.ok(result).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
