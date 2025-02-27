@@ -29,6 +29,26 @@ public class CustomersResource {
         return Response.status(Response.Status.CREATED).entity(customer).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    public Response update(@PathParam("id") Integer id, Customer newCustomer) {
+        if (customers.containsKey(id)) {
+            newCustomer.setId(id);
+            customers.put(id, newCustomer);
+            return Response.noContent().build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getOneCustomer(@PathParam("id") Integer id) {
+        if (customers.containsKey(id)) {
+            return Response.ok(customers.get(id)).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     @DELETE
     @Path("/{id}")
     public Response deleteCustomer(@PathParam("id") Integer id) {
