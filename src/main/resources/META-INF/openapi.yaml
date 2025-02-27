@@ -1,12 +1,16 @@
 openapi: 3.0.3
 info:
+  description: This API serves the Account Information
   title: The AccountService API
-  version: 0.0.1
+  version: 0.0.2
 servers:
   - url: 'http://localhost:8080/'
 paths:
   /customers:
     get:
+      parameters:
+        - name: page
+          in: query
       responses:
         "200":
           description: Get all customers
@@ -14,10 +18,60 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 10
                 items:
                   $ref: "#/components/schemas/Customer"
         "404":
           description: Ressource nicht gefunden
+    post:
+      description: Create a new customer
+      requestBody:
+        description: new customer
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "201":
+          description: Customer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          description: Invalid structure provided
+  /customers/{id}:
+    put:
+      description: Update one specific customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "204":
+          description: Successfully updated customer
+        "400":
+          description: Invalid structure provided
+        "404":
+          description: Resource not found
+    get:
+      responses:
+        "200":
+          description: Get one specific customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Ressource not found
+    delete:
+      description: Delete a specific customer
+      responses:
+        "204":
+          description: Successfully deleted customer
+        "404":
+          description: Customer not found
 components:
   schemas:
     Customer:
@@ -25,12 +79,23 @@ components:
       properties:
         id:
           type: integer
+          example: 42
         name:
           type: string
+          maxLength: 100
+          example: Müller
         vorname:
           type: string
+          example: Maximilian
         adresse:
           $ref: "#/components/schemas/Adresse"
+        status:
+          type: string
+          enum:
+            - aktiviert
+            - deaktiviert
+            - gesperrt
+          example: aktiviert
     Adresse:
       type: object
       properties:
@@ -39,11 +104,40 @@ components:
           properties:
             strasse:
               type: string
+              example: Lange Allee
             hausnummer:
               type: string
+              example: 123
             plz:
               type: string
+              example: 12345
             ort:
               type: string
+              example: Berlin
             land:
               type: string
+              example: Deutschland
+    PaymentMethod:
+      type: object
+      properties:
+        creditcard:
+          type: object
+          properties:
+            cardnumber:
+              type: string
+              minLength: 8
+              maxLength: 20
+            validity:
+              type: string
+              minLength: 5
+              maxLength: 5
+            cvv:
+              type: string
+              minLength: 3
+              maxLength: 3
+        paypal:
+          type: object
+          properties:
+            email:
+              type: string
+              maxLength: 50
