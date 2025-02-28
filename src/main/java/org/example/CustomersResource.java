@@ -1,5 +1,6 @@
 package org.example;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -22,7 +23,7 @@ public class CustomersResource {
     }
 
     @POST
-    public Response addCustomer(Customer customer) {
+    public Response addCustomer(@Valid Customer customer) {
         Integer newId = idCounter.getAndIncrement();
         customer.setId(newId);
         customers.put(newId, customer);
@@ -31,7 +32,7 @@ public class CustomersResource {
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Integer id, Customer newCustomer) {
+    public Response update(@PathParam("id") Integer id, @Valid Customer newCustomer) {
         if (customers.containsKey(id)) {
             newCustomer.setId(id);
             customers.put(id, newCustomer);
