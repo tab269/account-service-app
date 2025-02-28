@@ -1,12 +1,26 @@
 package org.example;
 
-public class Customer {
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.*;
 
+@Entity
+public class Customer extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String vorname;
+
     private String nachname;
+
+    @Embedded
     private Adresse adresse;
+
+    @Embedded
     private PaymentMethod paymentMethod;
+
+//    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Customer() {

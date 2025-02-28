@@ -1,5 +1,8 @@
 package org.example;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class PayPal {
 
     private String email;

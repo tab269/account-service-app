@@ -1,8 +1,15 @@
 package org.example;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
+
+@Embeddable
 public class PaymentMethod {
 
+    @Embedded
     private Creditcard creditcard;
+
+    @Embedded
     private PayPal payPal;
 
     public PaymentMethod() {
